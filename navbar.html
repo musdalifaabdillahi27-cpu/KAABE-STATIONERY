@@ -1,0 +1,22 @@
+<div class="w-full flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <div class="flex items-center gap-4">
+    <button class="lg:hidden p-3 rounded-2xl bg-white/90 text-[#B80024] shadow-sm" onclick="toggleMobileMenu('mobile-menu')">
+      <span class="text-xl">☰</span>
+    </button>
+    <div class="relative w-full sm:w-[340px]">
+      <span class="absolute inset-y-0 left-4 flex items-center text-slate-400">🔍</span>
+      <input type="search" placeholder="Search orders, products..." class="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm text-slate-700 focus:ring-2 focus:ring-[#B80024]/20 outline-none" />
+    </div>
+  </div>
+  <div class="flex items-center justify-between gap-3 sm:justify-end">
+    <button class="hidden sm:inline-flex items-center gap-2 px-4 py-3 rounded-2xl bg-[#B80024] text-white font-semibold hover:bg-[#93001b] transition">+ Add New</button>
+    <button class="p-3 rounded-2xl bg-white border border-slate-200 shadow-sm text-slate-600 hover:bg-slate-50 transition">🔔</button>
+    <div class="flex items-center gap-3 rounded-2xl bg-white border border-slate-200 px-3 py-2 shadow-sm">
+      <div class="w-10 h-10 rounded-full bg-[#B80024] flex items-center justify-center text-white font-semibold">JD</div>
+      <div class="hidden sm:block">
+        <p class="font-semibold">John Doe</p>
+        <p class="text-xs text-slate-500">Senior Staff</p>
+      </div>
+    </div>
+  </div>
+</div>

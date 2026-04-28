@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Stationery Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#B80024',
+            brandDark: '#93001b'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-[#F8F9FB]">
+  <div class="lg:flex">
+    <aside class="hidden lg:block lg:w-[320px] lg:min-h-screen">
+      <div class="h-full bg-[#B80024] text-white flex flex-col justify-between">
+        <div class="p-6 space-y-8">
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-2xl bg-white/15 flex items-center justify-center text-lg font-semibold">S</div>
+              <div>
+                <p class="text-sm uppercase tracking-[0.2em] font-semibold">Stationery Pro</p>
+                <p class="text-xs text-white/80">Admin Management</p>
+              </div>
+            </div>
+          </div>
+          <nav class="space-y-2">
+            <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl bg-white/15 hover:bg-white/20 transition">
+              <span class="text-lg">🏠</span>
+              <span class="font-medium">Dashboard</span>
+            </a>
+            <a href="products.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
+              <span class="text-lg">📦</span>
+              <span class="font-medium">Products</span>
+            </a>
+            <a href="debts.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
+              <span class="text-lg">💳</span>
+              <span class="font-medium">Debt Management</span>
+            </a>
+            <a href="landing.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
+              <span class="text-lg">🌐</span>
+              <span class="font-medium">Customer Page</span>
+            </a>
+          </nav>
+        </div>
+        <div class="p-6 border-t border-white/10">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-xl font-semibold">AR</div>
+            <div>
+              <p class="font-semibold">Alex Rivera</p>
+              <p class="text-sm text-white/80">Store Owner</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1">
+      <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-4 flex items-center justify-between">
+        <div class="text-lg font-semibold text-[#1F2937]">Stationery Pro</div>
+        <button class="p-3 rounded-2xl bg-[#B80024] text-white" onclick="toggleMobileMenu('mobile-menu')">☰</button>
+      </div>
+      <div id="mobile-menu" class="lg:hidden hidden bg-white border-b border-slate-200 px-4 py-5">
+        <nav class="space-y-2">
+          <a href="dashboard.html" class="block px-4 py-3 rounded-2xl bg-[#FDE8EA] text-[#B80024]">Dashboard</a>
+          <a href="products.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Products</a>
+          <a href="debts.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Debt Management</a>
+          <a href="landing.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Customer Page</a>
+        </nav>
+      </div>
+
+      <div class="px-4 py-5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h1 class="text-3xl font-semibold text-slate-900">Dashboard Overview</h1>
+                <p class="mt-2 text-sm text-slate-500">Welcome back, here is what is happening today.</p>
+              </div>
+              <div class="flex gap-3">
+                <button class="px-4 py-3 rounded-2xl bg-[#B80024] text-white font-semibold hover:bg-[#93001b] transition">Generate report</button>
+                <button class="px-4 py-3 rounded-2xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition">Filters</button>
+              </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <div class="card-soft rounded-[28px] bg-white p-6">
+                <p class="text-sm text-slate-400">Total Products</p>
+                <p class="mt-4 text-3xl font-semibold">1,248</p>
+                <p class="mt-3 text-sm text-emerald-600">+12% vs last month</p>
+              </div>
+              <div class="card-soft rounded-[28px] bg-white p-6">
+                <p class="text-sm text-slate-400">Total Sales</p>
+                <p class="mt-4 text-3xl font-semibold">452</p>
+                <p class="mt-3 text-sm text-emerald-600">+5% vs last week</p>
+              </div>
+              <div class="card-soft rounded-[28px] bg-white p-6">
+                <p class="text-sm text-slate-400">Total Customers</p>
+                <p class="mt-4 text-3xl font-semibold">892</p>
+                <p class="mt-3 text-sm text-emerald-600">+18% total growth</p>
+              </div>
+              <div class="card-soft rounded-[28px] bg-white p-6">
+                <p class="text-sm text-slate-400">Total Revenue</p>
+                <p class="mt-4 text-3xl font-semibold">$12,450</p>
+                <p class="mt-3 text-sm text-emerald-600">+8% net profit increase</p>
+              </div>
+            </div>
+
+            <div class="grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
+              <section class="card-soft rounded-[32px] bg-white p-6">
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <h2 class="text-xl font-semibold">Recent Orders</h2>
+                    <p class="text-sm text-slate-500">Showing 4 of 452 orders</p>
+                  </div>
+                  <a href="#" class="text-sm font-semibold text-[#B80024] hover:text-[#93001b]">View all orders</a>
+                </div>
+                <div class="mt-6 overflow-x-auto">
+                  <table class="min-w-full text-left text-sm text-slate-600">
+                    <thead class="border-b border-slate-200 text-slate-500">
+                      <tr>
+                        <th class="pb-3">Order ID</th>
+                        <th class="pb-3">Customer</th>
+                        <th class="pb-3">Date</th>
+                        <th class="pb-3">Amount</th>
+                        <th class="pb-3">Status</th>
+                        <th class="pb-3">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                      <tr class="hover:bg-slate-50 transition">
+                        <td class="py-4 font-semibold">#ORD-7742</td>
+                        <td class="py-4 flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-[#B80024]/10 text-[#B80024] flex items-center justify-center">JD</div>Jane Doe</td>
+                        <td class="py-4">Oct 24, 2023</td>
+                        <td class="py-4 font-semibold">$124.50</td>
+                        <td class="py-4"><span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">Completed</span></td>
+                        <td class="py-4">...</td>
+                      </tr>
+                      <tr class="hover:bg-slate-50 transition">
+                        <td class="py-4 font-semibold">#ORD-7741</td>
+                        <td class="py-4 flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center">MS</div>Mark Smith</td>
+                        <td class="py-4">Oct 24, 2023</td>
+                        <td class="py-4 font-semibold">$45.00</td>
+                        <td class="py-4"><span class="px-3 py-1 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold">Processing</span></td>
+                        <td class="py-4">...</td>
+                      </tr>
+                      <tr class="hover:bg-slate-50 transition">
+                        <td class="py-4 font-semibold">#ORD-7740</td>
+                        <td class="py-4 flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center">AL</div>Alice Lawson</td>
+                        <td class="py-4">Oct 23, 2023</td>
+                        <td class="py-4 font-semibold">$210.30</td>
+                        <td class="py-4"><span class="px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-semibold">Cancelled</span></td>
+                        <td class="py-4">...</td>
+                      </tr>
+                      <tr class="hover:bg-slate-50 transition">
+                        <td class="py-4 font-semibold">#ORD-7739</td>
+                        <td class="py-4 flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center">RK</div>Robert King</td>
+                        <td class="py-4">Oct 23, 2023</td>
+                        <td class="py-4 font-semibold">$88.20</td>
+                        <td class="py-4"><span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">Completed</span></td>
+                        <td class="py-4">...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <aside class="space-y-6">
+                <section class="card-soft rounded-[32px] bg-white p-6">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h2 class="text-xl font-semibold">Stock Alerts</h2>
+                      <p class="text-sm text-slate-500">Items that need attention today.</p>
+                    </div>
+                    <button class="text-sm text-[#B80024] font-semibold">Manage</button>
+                  </div>
+                  <div class="mt-6 space-y-4">
+                    <div class="rounded-3xl border border-rose-100 bg-rose-50 p-4">
+                      <div class="flex items-start justify-between gap-4">
+                        <div>
+                          <p class="font-semibold">A4 Copy Paper (Ream)</p>
+                          <p class="text-sm text-slate-500">Current Stock: 12 units</p>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-semibold">Reorder</span>
+                      </div>
+                    </div>
+                    <div class="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+                      <div class="flex items-start justify-between gap-4">
+                        <div>
+                          <p class="font-semibold">Gel Pens - Blue (Box 12)</p>
+                          <p class="text-sm text-slate-500">Current Stock: 25 units</p>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">Manage</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="card-soft rounded-[32px] bg-white p-6">
+                  <h2 class="text-xl font-semibold">Top Selling Categories</h2>
+                  <div class="mt-6 space-y-4">
+                    <div>
+                      <div class="flex items-center justify-between text-sm text-slate-600 mb-2">
+                        <span>Paper & Notebooks</span>
+                        <span>65%</span>
+                      </div>
+                      <div class="h-3 rounded-full bg-slate-100 overflow-hidden">
+                        <div class="h-full rounded-full bg-[#B80024]" style="width: 65%;"></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="flex items-center justify-between text-sm text-slate-600 mb-2">
+                        <span>Writing Instruments</span>
+                        <span>22%</span>
+                      </div>
+                      <div class="h-3 rounded-full bg-slate-100 overflow-hidden">
+                        <div class="h-full rounded-full bg-[#B80024]/70" style="width: 22%;"></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="flex items-center justify-between text-sm text-slate-600 mb-2">
+                        <span>Desk Accessories</span>
+                        <span>13%</span>
+                      </div>
+                      <div class="h-3 rounded-full bg-slate-100 overflow-hidden">
+                        <div class="h-full rounded-full bg-[#B80024]/40" style="width: 13%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="scripts/app.js"></script>
+</body>
+</html>
