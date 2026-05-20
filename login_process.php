@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Hardcoded credentials for demo
     $users = [
         'admin' => ['password' => 'admin123', 'role' => 'admin'],
-        'staff1' => ['password' => 'staff123', 'role' => 'staff'],
+        'staff' => ['password' => 'staff123', 'role' => 'staff'],
         'customer1' => ['password' => 'cust123', 'role' => 'customer']
     ];
 

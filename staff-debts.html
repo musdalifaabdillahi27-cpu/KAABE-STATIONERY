@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Debt Information | Stationery Management</title>
+  <title>Debt Management | KAABE STATIO</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="styles.css" />
   <script>
@@ -18,11 +18,6 @@
       }
     }
   </script>
-  <script>
-    if ((localStorage.getItem('kaabeRole') || '').toLowerCase() === 'staff') {
-      window.location.replace('staff-debts.html');
-    }
-  </script>
 </head>
 <body class="min-h-screen bg-[#F8F9FB]">
   <div class="lg:flex">
@@ -33,27 +28,23 @@
             <div class="flex items-center gap-3">
               <div class="w-11 h-11 rounded-2xl bg-white/15 flex items-center justify-center text-lg font-semibold">S</div>
               <div>
-                <p class="text-sm uppercase tracking-[0.2em] font-semibold">STATIONERY PRO</p>
-                <p class="text-xs text-white/80">Admin Management</p>
+                <p class="text-sm uppercase tracking-[0.2em] font-semibold">KAABE STATIO</p>
+                <p class="text-xs text-white/80">Staff Access</p>
               </div>
             </div>
           </div>
           <nav class="admin-sidebar-nav space-y-2">
-            <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
+            <a href="staff-dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
               <span class="text-lg">🏠</span>
               <span class="font-medium">Dashboard</span>
             </a>
-            <a href="products.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
+            <a href="sell-product.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
               <span class="text-lg">📦</span>
-              <span class="font-medium">Products</span>
+              <span class="font-medium">Sell Product</span>
             </a>
-            <a href="debts.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl bg-white/15 hover:bg-white/20 transition">
+            <a href="staff-debts.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl bg-white/15 hover:bg-white/20 transition">
               <span class="text-lg">💳</span>
-              <span class="font-medium">Debt Information</span>
-            </a>
-            <a href="staff-management.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
-              <span class="text-lg">👥</span>
-              <span class="font-medium">Staff Management</span>
+              <span class="font-medium">Debt Management</span>
             </a>
             <a href="landing.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
               <span class="text-lg">🌐</span>
@@ -63,10 +54,10 @@
         </div>
         <div class="admin-sidebar-profile p-6 border-t border-white/10">
           <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-xl font-semibold">AR</div>
+            <div id="staffProfileInitials" class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-xl font-semibold">SF</div>
             <div>
-              <p class="font-semibold">Alex Rivera</p>
-              <p class="text-sm text-white/80">Store Owner</p>
+              <p id="staffProfileName" class="font-semibold">Staff Member</p>
+              <p class="text-sm text-white/80">STAFF ROLE</p>
             </div>
           </div>
         </div>
@@ -75,15 +66,14 @@
 
     <main class="flex-1 lg:ml-[320px]">
       <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-4 flex items-center justify-between">
-        <div class="text-lg font-semibold text-[#1F2937]">Stationery Pro</div>
+        <div class="text-lg font-semibold text-[#1F2937]">KAABE STATIO</div>
         <button class="p-3 rounded-2xl bg-[#B80024] text-white" onclick="toggleMobileMenu('mobile-menu')">☰</button>
       </div>
       <div id="mobile-menu" class="lg:hidden hidden bg-white border-b border-slate-200 px-4 py-5">
         <nav class="space-y-2">
-          <a href="dashboard.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Dashboard</a>
-          <a href="products.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Products</a>
-          <a href="debts.html" class="block px-4 py-3 rounded-2xl bg-[#FDE8EA] text-[#B80024]">Debt Information</a>
-          <a href="staff-management.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Staff Management</a>
+          <a href="staff-dashboard.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Dashboard</a>
+          <a href="sell-product.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Sell Product</a>
+          <a href="staff-debts.html" class="block px-4 py-3 rounded-2xl bg-[#FDE8EA] text-[#B80024]">Debt Management</a>
           <a href="landing.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Customer Page</a>
         </nav>
       </div>
@@ -93,7 +83,7 @@
           <div class="flex flex-col gap-6">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 class="text-3xl font-semibold text-slate-900">Debt Information</h1>
+                <h1 class="text-3xl font-semibold text-slate-900">Debt Management</h1>
                 <p class="mt-2 text-sm text-slate-500">Track customer liabilities and recover payments.</p>
               </div>
               <div class="flex flex-col items-start sm:items-end gap-3">
@@ -220,10 +210,12 @@
     </div>
   </div>
 
-  <script src="scripts/app.js"></script>
-  <script src="scripts/auth.js"></script>
-  <script src="scripts/debts.js"></script>
+  <script src="scripts/app.js?v=6"></script>
+  <script src="scripts/auth.js?v=6"></script>
+  <script src="scripts/staff-profile.js?v=6"></script>
+  <script src="scripts/debts.js?v=6"></script>
   <script>
+    protectRoute(['staff']);
     loadDebtsPage();
   </script>
 </body>

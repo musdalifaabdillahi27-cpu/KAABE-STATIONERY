@@ -18,33 +18,42 @@
       }
     }
   </script>
+  <script>
+    if ((localStorage.getItem('kaabeRole') || '').toLowerCase() === 'staff') {
+      window.location.replace('sell-product.html' + window.location.search);
+    }
+  </script>
 </head>
 <body class="min-h-screen bg-[#F8F9FB]">
   <div class="lg:flex">
-    <aside class="hidden lg:block lg:w-[320px] lg:min-h-screen">
-      <div class="h-full bg-[#B80024] text-white flex flex-col justify-between">
+    <aside class="admin-sidebar hidden lg:block">
+      <div class="admin-sidebar-inner h-full bg-[#B80024] text-white">
         <div class="p-6 space-y-8">
           <div class="space-y-3">
             <div class="flex items-center gap-3">
               <div class="w-11 h-11 rounded-2xl bg-white/15 flex items-center justify-center text-lg font-semibold">S</div>
               <div>
-                <p class="text-sm uppercase tracking-[0.2em] font-semibold">Stationery Pro</p>
+                <p class="text-sm uppercase tracking-[0.2em] font-semibold">STATIONERY PRO</p>
                 <p class="text-xs text-white/80">Admin Management</p>
               </div>
             </div>
           </div>
-          <nav class="space-y-2">
+          <nav class="admin-sidebar-nav space-y-2">
             <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
               <span class="text-lg">🏠</span>
               <span class="font-medium">Dashboard</span>
             </a>
-            <a href="products.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl bg-white/15">
+            <a href="products.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl bg-white/15 hover:bg-white/20 transition">
               <span class="text-lg">📦</span>
               <span class="font-medium">Products</span>
             </a>
             <a href="debts.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
               <span class="text-lg">💳</span>
-              <span class="font-medium">Debt Management</span>
+              <span class="font-medium">Debt Information</span>
+            </a>
+            <a href="staff-management.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
+              <span class="text-lg">👥</span>
+              <span class="font-medium">Staff Management</span>
             </a>
             <a href="landing.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
               <span class="text-lg">🌐</span>
@@ -52,7 +61,7 @@
             </a>
           </nav>
         </div>
-        <div class="p-6 border-t border-white/10">
+        <div class="admin-sidebar-profile p-6 border-t border-white/10">
           <div class="flex items-center gap-4">
             <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-xl font-semibold">AR</div>
             <div>
@@ -64,7 +73,7 @@
       </div>
     </aside>
 
-    <main class="flex-1">
+    <main class="flex-1 lg:ml-[320px]">
       <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-4 flex items-center justify-between">
         <div class="text-lg font-semibold text-[#1F2937]">Stationery Pro</div>
         <button class="p-3 rounded-2xl bg-[#B80024] text-white" onclick="toggleMobileMenu('mobile-menu')">☰</button>
@@ -73,7 +82,8 @@
         <nav class="space-y-2">
           <a href="dashboard.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Dashboard</a>
           <a href="products.html" class="block px-4 py-3 rounded-2xl bg-[#FDE8EA] text-[#B80024]">Products</a>
-          <a href="debts.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Debt Management</a>
+          <a href="debts.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Debt Information</a>
+          <a href="staff-management.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Staff Management</a>
           <a href="landing.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Customer Page</a>
         </nav>
       </div>
@@ -83,17 +93,22 @@
           <div class="flex flex-col gap-6">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 class="text-3xl font-semibold text-slate-900">Product Management</h1>
-                <p class="mt-2 text-sm text-slate-500">Manage inventory and product listings with easy controls.</p>
+                <h1 id="productsPageTitle" class="text-3xl font-semibold text-slate-900">Product Management</h1>
+                <p id="productsPageSubtitle" class="mt-2 text-sm text-slate-500">Manage inventory and product listings with easy controls.</p>
               </div>
-              <button class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#B80024] text-white font-semibold hover:bg-[#93001b] transition" onclick="toggleModal('productModal')">+ Add Product</button>
+              <button data-role="admin-only" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#B80024] text-white font-semibold hover:bg-[#93001b] transition" onclick="openAddProduct()">+ Add Product</button>
             </div>
 
-            <section class="card-soft rounded-[32px] bg-white p-6">
+            <section id="staffSellSection" class="hidden">
+              <div id="staffSellGrid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+            </section>
+
+            <section id="adminProductsSection" class="card-soft rounded-[32px] bg-white p-6">
               <div class="overflow-x-auto">
                 <table class="min-w-full text-left text-sm text-slate-600">
                   <thead class="border-b border-slate-200 text-slate-500 uppercase text-xs tracking-[0.2em]">
                     <tr>
+                      <th class="py-4 px-4 w-16">Image</th>
                       <th class="py-4 px-4">Name</th>
                       <th class="py-4 px-4">Price</th>
                       <th class="py-4 px-4">Quantity</th>
@@ -101,48 +116,7 @@
                       <th class="py-4 px-4">Actions</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-slate-200">
-                    <tr class="hover:bg-slate-50 transition">
-                      <td class="py-4 px-4 font-semibold">Executive Fountain Pen</td>
-                      <td class="py-4 px-4">$45.00</td>
-                      <td class="py-4 px-4">120</td>
-                      <td class="py-4 px-4">Writing Instruments</td>
-                      <td class="py-4 px-4 flex gap-2">
-                        <button class="px-3 py-2 rounded-2xl border border-[#B80024] text-[#B80024] hover:bg-[#B80024]/10 transition">Edit</button>
-                        <button class="px-3 py-2 rounded-2xl bg-[#B80024] text-white hover:bg-[#93001b] transition">Delete</button>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 transition">
-                      <td class="py-4 px-4 font-semibold">A5 Dot Grid Journal</td>
-                      <td class="py-4 px-4">$18.50</td>
-                      <td class="py-4 px-4">84</td>
-                      <td class="py-4 px-4">Paper & Notebooks</td>
-                      <td class="py-4 px-4 flex gap-2">
-                        <button class="px-3 py-2 rounded-2xl border border-[#B80024] text-[#B80024] hover:bg-[#B80024]/10 transition">Edit</button>
-                        <button class="px-3 py-2 rounded-2xl bg-[#B80024] text-white hover:bg-[#93001b] transition">Delete</button>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 transition">
-                      <td class="py-4 px-4 font-semibold">Desk Organizer Kit</td>
-                      <td class="py-4 px-4">$24.99</td>
-                      <td class="py-4 px-4">42</td>
-                      <td class="py-4 px-4">Desk Accessories</td>
-                      <td class="py-4 px-4 flex gap-2">
-                        <button class="px-3 py-2 rounded-2xl border border-[#B80024] text-[#B80024] hover:bg-[#B80024]/10 transition">Edit</button>
-                        <button class="px-3 py-2 rounded-2xl bg-[#B80024] text-white hover:bg-[#93001b] transition">Delete</button>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 transition">
-                      <td class="py-4 px-4 font-semibold">Classic Notebook Set</td>
-                      <td class="py-4 px-4">$32.00</td>
-                      <td class="py-4 px-4">70</td>
-                      <td class="py-4 px-4">Office Supplies</td>
-                      <td class="py-4 px-4 flex gap-2">
-                        <button class="px-3 py-2 rounded-2xl border border-[#B80024] text-[#B80024] hover:bg-[#B80024]/10 transition">Edit</button>
-                        <button class="px-3 py-2 rounded-2xl bg-[#B80024] text-white hover:bg-[#93001b] transition">Delete</button>
-                      </td>
-                    </tr>
-                  </tbody>
+                  <tbody id="productsTableBody" class="divide-y divide-slate-200"></tbody>
                 </table>
               </div>
             </section>
@@ -152,32 +126,33 @@
     </main>
   </div>
 
-  <div id="productModal" class="fixed inset-0 hidden items-center justify-center p-4 modal-backdrop">
-    <div class="w-full max-w-2xl rounded-[32px] bg-white p-6 shadow-2xl">
+  <div id="productModal" class="fixed inset-0 hidden z-[100] overflow-y-auto modal-backdrop p-4">
+    <div class="min-h-full flex items-center justify-center">
+      <form id="productForm" class="w-full max-w-2xl rounded-[32px] bg-white p-6 shadow-2xl my-8">
       <div class="flex items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-semibold">Add New Product</h2>
+          <h2 id="productModalTitle" class="text-2xl font-semibold">Add New Product</h2>
           <p class="text-sm text-slate-500">Create a new inventory item with all details.</p>
         </div>
-        <button class="text-slate-400 hover:text-slate-600" onclick="closeModal('productModal')">✕</button>
+        <button type="button" class="text-slate-400 hover:text-slate-600" onclick="closeModal('productModal')">✕</button>
       </div>
       <div class="mt-6 grid gap-4 md:grid-cols-2">
         <label class="space-y-2 text-sm font-medium text-slate-600">
           Product Name
-          <input type="text" placeholder="e.g. Mechanical Keyboard G2" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" />
+          <input id="productName" type="text" placeholder="e.g. Mechanical Keyboard G2" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" required />
         </label>
         <label class="space-y-2 text-sm font-medium text-slate-600">
           Price ($)
-          <input type="number" value="0.00" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" />
+          <input id="productPrice" type="number" value="0.00" step="0.01" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" required />
         </label>
         <label class="space-y-2 text-sm font-medium text-slate-600">
           Quantity
-          <input type="number" value="0" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" />
+          <input id="productQuantity" type="number" value="0" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" required />
         </label>
         <label class="space-y-2 text-sm font-medium text-slate-600">
           Category
-          <select class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none">
-            <option>Select a category</option>
+          <select id="productCategory" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" required>
+            <option value="">Select a category</option>
             <option>Writing Instruments</option>
             <option>Paper & Notebooks</option>
             <option>Desk Accessories</option>
@@ -185,25 +160,81 @@
           </select>
         </label>
       </div>
-      <div class="mt-4">
-        <label class="block rounded-[28px] border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-slate-500 cursor-pointer hover:bg-slate-100 transition">
-          <div class="flex flex-col items-center justify-center gap-3">
-            <div class="text-3xl">⤓</div>
-            <div>
-              <p class="font-semibold text-slate-700">Click to upload or drag and drop</p>
-              <p class="text-sm">PNG, JPG, or WebP (max. 5MB)</p>
+      <div class="mt-4 grid gap-4">
+        <label class="space-y-2 text-sm font-medium text-slate-600">
+          Description
+          <textarea id="productDescription" rows="4" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none"></textarea>
+        </label>
+        <div class="space-y-4">
+          <label class="space-y-2 text-sm font-medium text-slate-600">
+            Product Image URL (Optional)
+            <input id="productImageUrl" type="url" placeholder="https://example.com/image.jpg" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" oninput="previewImage()" />
+          </label>
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center" aria-hidden="true">
+              <div class="w-full border-t border-slate-200"></div>
+            </div>
+            <div class="relative flex justify-center text-xs uppercase tracking-widest text-slate-400">
+              <span class="bg-white px-2">Or upload file</span>
             </div>
           </div>
-          <input type="file" class="hidden" />
-        </label>
+          <label class="block rounded-[28px] border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-slate-500 cursor-pointer hover:bg-slate-100 transition">
+            <div class="flex flex-col items-center justify-center gap-3">
+              <div id="imagePreviewContainer" class="hidden mb-2 h-20 w-20 overflow-hidden rounded-xl border border-slate-200">
+                <img id="imagePreview" src="#" alt="Preview" class="h-full w-full object-cover" />
+              </div>
+              <div id="uploadIcon" class="text-3xl">⤓</div>
+              <div>
+                <p id="uploadImageTitle" class="font-semibold text-slate-700">Click to upload image</p>
+                <p id="uploadImageSubtitle" class="text-sm">PNG, JPG, or WebP (max. 5MB)</p>
+              </div>
+            </div>
+            <input id="productImageFile" onchange="updateFileName(); previewFile()" type="file" accept="image/*" class="hidden" />
+          </label>
+        </div>
       </div>
       <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
-        <button class="rounded-3xl border border-slate-200 px-5 py-3 text-slate-700 hover:bg-slate-100 transition" onclick="closeModal('productModal')">Cancel</button>
-        <button class="rounded-3xl bg-[#B80024] px-5 py-3 text-white font-semibold hover:bg-[#93001b] transition">Create Product</button>
+        <button type="button" class="rounded-3xl border border-slate-200 px-5 py-3 text-slate-700 hover:bg-slate-100 transition" onclick="closeModal('productModal')">Cancel</button>
+        <button id="saveProductButton" type="submit" class="rounded-3xl bg-[#B80024] px-5 py-3 text-white font-semibold hover:bg-[#93001b] transition">Create Product</button>
       </div>
+    </form>
     </div>
   </div>
 
+  <div id="sellModal" class="fixed inset-0 hidden z-[100] overflow-y-auto modal-backdrop p-4">
+    <div class="min-h-full flex items-center justify-center">
+      <form id="sellForm" class="w-full max-w-lg rounded-[32px] bg-white p-6 shadow-2xl my-8">
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-semibold">Sell Product</h2>
+            <p id="sellProductName" class="text-sm text-slate-500 mt-1">—</p>
+          </div>
+          <button type="button" class="text-slate-400 hover:text-slate-600" onclick="closeModal('sellModal')">✕</button>
+        </div>
+        <div class="mt-6 space-y-4">
+          <p class="text-sm text-slate-600">Unit price: <span id="sellUnitPrice" class="font-semibold text-[#B80024]">$0.00</span></p>
+          <p class="text-sm text-slate-600">Available stock: <span id="sellStockAvailable" class="font-semibold">0</span></p>
+          <label class="block space-y-2 text-sm font-medium text-slate-600">
+            Quantity to sell
+            <input id="sellQuantity" type="number" min="1" value="1" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" required />
+          </label>
+          <p class="text-lg font-semibold text-slate-900">Total: <span id="sellTotalAmount">$0.00</span></p>
+          <p id="sellError" class="hidden text-sm text-rose-600"></p>
+        </div>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
+          <button type="button" class="rounded-3xl border border-slate-200 px-5 py-3 text-slate-700 hover:bg-slate-100 transition" onclick="closeModal('sellModal')">Cancel</button>
+          <button type="submit" class="rounded-3xl bg-[#B80024] px-5 py-3 text-white font-semibold hover:bg-[#93001b] transition">Confirm Sale</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="scripts/staff-sidebar.js"></script>
   <script src="scripts/app.js"></script>
+  <script src="scripts/auth.js"></script>
+  <script src="scripts/products.js"></script>
+  <script>
+    protectRoute(['admin']);
+  </script>
 </body>
 </html>

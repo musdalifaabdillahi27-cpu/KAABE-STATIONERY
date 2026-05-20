@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Management | KAABE STATIO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#B80024',
+            brandDark: '#93001b'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-[#F8F9FB]">
+  <div class="lg:flex">
+    <aside class="admin-sidebar hidden lg:block">
+      <div class="admin-sidebar-inner h-full bg-[#B80024] text-white">
+        <div class="p-6 space-y-8">
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-2xl bg-white/15 flex items-center justify-center text-lg font-semibold">S</div>
+              <div>
+                <p class="text-sm uppercase tracking-[0.2em] font-semibold">STATIONERY PRO</p>
+                <p class="text-xs text-white/80">Admin Management</p>
+              </div>
+            </div>
+          </div>
+          <nav class="admin-sidebar-nav space-y-2">
+            <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
+              <span class="text-lg">🏠</span>
+              <span class="font-medium">Dashboard</span>
+            </a>
+            <a href="products.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
+              <span class="text-lg">📦</span>
+              <span class="font-medium">Products</span>
+            </a>
+            <a href="debts.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
+              <span class="text-lg">💳</span>
+              <span class="font-medium">Debt Information</span>
+            </a>
+            <a href="staff-management.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl bg-white/15 hover:bg-white/20 transition">
+              <span class="text-lg">👥</span>
+              <span class="font-medium">Staff Management</span>
+            </a>
+            <a href="landing.html" class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-white/10 transition">
+              <span class="text-lg">🌐</span>
+              <span class="font-medium">Customer Page</span>
+            </a>
+          </nav>
+        </div>
+        <div class="admin-sidebar-profile p-6 border-t border-white/10">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-xl font-semibold">AR</div>
+            <div>
+              <p class="font-semibold">Admin User</p>
+              <p class="text-sm text-white/80">Administrator</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 lg:ml-[320px]">
+      <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-4 flex items-center justify-between">
+        <div class="text-lg font-semibold text-[#1F2937]">KAABE STATIO</div>
+        <button class="p-3 rounded-2xl bg-[#B80024] text-white" onclick="toggleMobileMenu('mobile-menu')">☰</button>
+      </div>
+      <div id="mobile-menu" class="lg:hidden hidden bg-white border-b border-slate-200 px-4 py-5">
+        <nav class="space-y-2">
+          <a href="dashboard.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Dashboard</a>
+          <a href="products.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Products</a>
+          <a href="debts.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Debt Information</a>
+          <a href="staff-management.html" class="block px-4 py-3 rounded-2xl bg-[#FDE8EA] text-[#B80024]">Staff Management</a>
+          <a href="landing.html" class="block px-4 py-3 rounded-2xl hover:bg-slate-100">Customer Page</a>
+        </nav>
+      </div>
+
+      <div class="px-4 py-5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h1 class="text-3xl font-semibold text-slate-900">Staff Management</h1>
+                <p class="mt-2 text-sm text-slate-500">Add new staff accounts and review current staff members.</p>
+              </div>
+              <button onclick="logout()" class="px-4 py-3 rounded-2xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition">Logout</button>
+            </div>
+
+            <div class="grid gap-6 xl:grid-cols-2">
+              <section class="card-soft rounded-[32px] bg-white p-6">
+                <h2 class="text-xl font-semibold text-slate-900">Create Staff Account</h2>
+                <p class="text-sm text-slate-500 mt-2">Only administrators can add new staff users.</p>
+                <div id="staffError" class="hidden mt-4 rounded-2xl bg-rose-50 border border-rose-100 px-4 py-3 text-sm text-rose-700"></div>
+                <form id="staffForm" onsubmit="return handleStaffCreate(event)" class="mt-6 space-y-4">
+                  <label class="block text-sm font-medium text-slate-700">Full Name</label>
+                  <input type="text" name="fullName" placeholder="e.g. Mohamed Ali" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" />
+
+                  <label class="block text-sm font-medium text-slate-700">Username</label>
+                  <input type="text" name="username" required placeholder="staff01" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" />
+
+                  <label class="block text-sm font-medium text-slate-700">Password</label>
+                  <input type="password" name="password" required placeholder="********" class="w-full rounded-3xl border border-slate-200 px-4 py-3 focus:border-[#B80024] focus:ring-2 focus:ring-[#B80024]/20 outline-none" />
+
+                  <button type="submit" class="inline-flex items-center justify-center rounded-3xl bg-[#B80024] px-6 py-3 text-sm font-semibold text-white hover:bg-[#93001b] transition">Add Staff</button>
+                </form>
+              </section>
+
+              <section class="card-soft rounded-[32px] bg-white p-6">
+                <div class="flex items-center justify-between gap-3">
+                  <div>
+                    <h2 class="text-xl font-semibold text-slate-900">Team Overview</h2>
+                    <p class="text-sm text-slate-500 mt-2">Current staff accounts in the system.</p>
+                  </div>
+                  <div class="rounded-3xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700">Total: <span id="staffCount">0</span></div>
+                </div>
+                <div class="mt-6 overflow-x-auto">
+                  <table class="min-w-full text-left text-sm text-slate-600">
+                    <thead class="border-b border-slate-200 text-slate-500 uppercase text-xs tracking-[0.2em]">
+                      <tr>
+                        <th class="py-4 px-4">Full Name</th>
+                        <th class="py-4 px-4">Username</th>
+                        <th class="py-4 px-4">Role</th>
+                        <th class="py-4 px-4">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="staffTableBody" class="divide-y divide-slate-200"></tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="scripts/app.js"></script>
+  <script src="scripts/auth.js"></script>
+  <script src="scripts/staff.js"></script>
+  <script>
+    loadStaffManagement();
+  </script>
+</body>
+</html>

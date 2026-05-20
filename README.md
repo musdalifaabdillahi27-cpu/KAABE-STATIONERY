@@ -1,22 +1,34 @@
 # Stationery Management System
 
-This project contains a full-stack UI for a Stationery Management System using HTML, Tailwind CSS, and PHP (no database).
+This project contains a UI and backend for a Stationery Management System using HTML, Tailwind CSS, Node.js, Express, and MongoDB.
 
 ## Files
-- `index.php` — Login page (entry point)
-- `login_process.php` — PHP login handler (hardcoded credentials)
-- `dashboard.php` — Admin/Staff Dashboard
-- `logout.php` — Logout handler
-- `products.html` — Product Management page
-- `debts.html` — Debt Management page
-- `landing.html` — Customer landing page
+- `server.js` — Express backend server with API routes
+- `routes/auth.js` — Authentication route for login
+- `routes/products.js` — Product CRUD API
+- `models/User.js` — MongoDB user model
+- `models/Product.js` — MongoDB product model
+- `seed.js` — Seed script for initial users and products
+- `landing.html` — Customer landing page with login modal
+- `login.html` — Login page
+- `dashboard.html` — Admin dashboard
+- `staff-dashboard.html` — Staff dashboard
+- `products.html` — Product management page
+- `debts.html` — Debt management page
 - `styles.css` — Custom utility CSS
-- `scripts/app.js` — Modal and mobile menu interactions
+- `scripts/auth.js` — client auth helpers and route protection
+- `scripts/login.js` — login submission and role-based redirect
+- `scripts/products.js` — product dashboard CRUD behavior
+- `scripts/app.js` — modal and UI interactions
 
 ## Setup
-1. Install PHP (XAMPP or similar).
-2. Place files in your web server root (e.g., htdocs).
-3. Open `index.php` in browser.
+1. Install Node.js and MongoDB.
+2. Open a terminal in the project folder.
+3. Run `npm install`.
+4. Copy `.env.example` to `.env` and update `MONGODB_URI` if needed.
+5. Run `npm run seed` to populate initial users and products.
+6. Run `npm start` or `npm run dev`.
+7. Open `http://localhost:3000`.
 
 ## Login Credentials
 - Admin: admin / admin123
@@ -24,6 +36,8 @@ This project contains a full-stack UI for a Stationery Management System using H
 - Customer: customer1 / cust123
 
 ## Notes
-- Uses sessions for authentication.
-- Role-based access (Admin sees all, Staff sees products, Customer limited).
-- No database required - hardcoded credentials.
+- Login uses JWT tokens stored in localStorage.
+- MongoDB stores products and users.
+- Admin users are redirected to `dashboard.html`.
+- Staff users are redirected to `staff-dashboard.html`.
+- Product CRUD is available to `admin` and `staff`.

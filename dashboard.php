@@ -29,8 +29,8 @@ $role = $_SESSION['role'];
 </head>
 <body class="min-h-screen bg-[#F8F9FB]">
   <div class="lg:flex">
-    <aside class="hidden lg:block lg:w-[320px] lg:min-h-screen">
-      <div class="h-full bg-[#B80024] text-white flex flex-col justify-between">
+    <aside class="hidden lg:block lg:w-[320px] lg:h-screen lg:fixed lg:inset-y-0 lg:left-0 lg:z-50">
+      <div class="h-full bg-[#B80024] text-white flex flex-col justify-between overflow-y-auto">
         <div class="p-6 space-y-8">
           <div class="space-y-3">
             <div class="flex items-center gap-3">
@@ -80,7 +80,7 @@ $role = $_SESSION['role'];
       </div>
     </aside>
 
-    <main class="flex-1">
+    <main class="flex-1 lg:ml-[320px]">
       <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-4 flex items-center justify-between">
         <div class="text-lg font-semibold text-[#1F2937]">Stationery Pro</div>
         <button class="p-3 rounded-2xl bg-[#B80024] text-white" onclick="toggleMobileMenu('mobile-menu')">☰</button>
