@@ -394,6 +394,101 @@ function printReport() {
   printWin.focus();
 }
 
+function downloadReport() {
+  const now = new Date();
+  const monthLabel = document.getElementById('reportMonthLabel')?.textContent || now.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+  const generatedAt = document.getElementById('reportGeneratedAt')?.textContent || now.toLocaleString('en-US', {
+    weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+  });
+
+  const productsHTML = document.getElementById('reportProductsTable')?.innerHTML || '';
+  const debtHTML     = document.getElementById('reportDebtList')?.innerHTML || '';
+  const revenue      = document.getElementById('reportTotalRevenue')?.textContent || '$0.00';
+  const productCount = document.getElementById('reportProductCount')?.textContent || '0';
+  const outstanding  = document.getElementById('reportOutstandingDebt')?.textContent || '$0.00';
+
+  const downloadHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KAABE STATIO — Monthly Report ${monthLabel}</title>
+  <style>
+    body { font-family: Arial, sans-serif; color: #1f2937; margin: 40px; }
+    h1, h2, h3 { margin: 0 0 12px; }
+    .report-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+    .badge { display: inline-flex; align-items: center; justify-content: center; background: #B80024; color: white; padding: 8px 14px; border-radius: 12px; font-weight: 700; }
+    .summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .card { border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px; }
+    .card strong { display: block; margin-bottom: 8px; color: #64748b; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+    .card span { display: block; font-size: 22px; font-weight: 700; color: #0f172a; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+    table th, table td { border: 1px solid #e2e8f0; padding: 10px 12px; text-align: left; font-size: 12px; }
+    table th { background: #f8fafc; color: #475569; text-transform: uppercase; letter-spacing: 0.02em; }
+    .footer { margin-top: 24px; font-size: 11px; color: #64748b; display: flex; justify-content: space-between; }
+    .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="report-header">
+    <div>
+      <div class="badge">KAABE STATIO</div>
+      <h1>Monthly Report</h1>
+      <p>${generatedAt}</p>
+    </div>
+    <div style="text-align: right;">
+      <p class="section-title">Report Month</p>
+      <h2>${monthLabel}</h2>
+    </div>
+  </div>
+  <div class="summary">
+    <div class="card"><strong>Total Stock Value</strong><span>${revenue}</span></div>
+    <div class="card"><strong>Products in Stock</strong><span>${productCount}</span></div>
+    <div class="card"><strong>Outstanding Debt</strong><span>${outstanding}</span></div>
+  </div>
+  <div>
+    <div class="section-title">Current Inventory</div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Unit Price</th>
+          <th>Qty in Stock</th>
+          <th>Stock Value</th>
+        </tr>
+      </thead>
+      <tbody>${productsHTML}</tbody>
+    </table>
+  </div>
+  <div>
+    <div class="section-title">Debt Summary</div>
+    ${debtHTML}
+  </div>
+  <div class="footer">
+    <span>KAABE STATIO — Internal Report</span>
+    <span>${generatedAt}</span>
+  </div>
+</body>
+</html>`;
+
+  const blob = new Blob([downloadHTML], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `KAABE-STATIO-Report-${monthLabel.replace(/\s+/g, '-')}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+async function generateAndDownloadReport() {
+  await generateReport();
+  downloadReport();
+}
+
 // Close on backdrop click
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('reportModal');
@@ -407,3 +502,4 @@ document.addEventListener('DOMContentLoaded', () => {
 window.generateReport   = generateReport;
 window.closeReportModal = closeReportModal;
 window.printReport      = printReport;
+window.downloadReport   = downloadReport;

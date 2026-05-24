@@ -26,8 +26,12 @@ function buildStaffSidebarHTML(activePage) {
     { key: 'dashboard', href: 'staff-dashboard.html', icon: '🏠', label: 'Dashboard' },
     { key: 'products', href: 'sell-product.html', icon: '📦', label: 'Sell Product' },
     { key: 'debts', href: 'staff-debts.html', icon: '💳', label: 'Debt Information' },
-    { key: 'customer', href: 'landing.html', icon: '🌐', label: 'Customer Page' },
   ];
+    const nav = [
+      { key: 'dashboard', href: 'staff-dashboard.html', icon: '🏠', label: 'Dashboard' },
+      { key: 'products', href: 'sell-product.html', icon: '📦', label: 'Sell Product' },
+      { key: 'debts', href: 'staff-debts.html', icon: '💳', label: 'Debt Information' },
+    ];
 
   const navHtml = nav
     .map(
@@ -70,8 +74,12 @@ function buildStaffMobileMenuHTML(activePage) {
     { key: 'dashboard', href: 'staff-dashboard.html', label: 'Dashboard' },
     { key: 'products', href: 'sell-product.html', label: 'Sell Product' },
     { key: 'debts', href: 'debts.html', label: 'Debt Information' },
-    { key: 'customer', href: 'landing.html', label: 'Customer Page' },
   ];
+    const nav = [
+      { key: 'dashboard', href: 'staff-dashboard.html', label: 'Dashboard' },
+      { key: 'products', href: 'sell-product.html', label: 'Sell Product' },
+      { key: 'debts', href: 'debts.html', label: 'Debt Information' },
+    ];
 
   return nav
     .map((item) => {

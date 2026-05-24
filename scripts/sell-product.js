@@ -39,7 +39,8 @@ async function loadStaffSellView() {
     </div>`;
 
   try {
-    staffProductsCache = await fetchInventoryForStaff();
+    hideSellAlert();
+  staffProductsCache = await fetchInventoryForStaff();
 
     if (!staffProductsCache.length) {
       staffSellGrid.innerHTML = `
@@ -82,6 +83,7 @@ function renderStaffSellCard(product) {
       <div class="p-5 space-y-3">
         <h3 class="font-semibold text-slate-900 truncate">${product.name}</h3>
         <p class="text-sm text-slate-500">${qty} in stock · ${product.category || 'General'}</p>
+        ${outOfStock ? `<div class="mt-2"><span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold">⚠ Sold out</span></div>` : ''}
         <button
           type="button"
           ${outOfStock ? 'disabled' : ''}
@@ -108,6 +110,30 @@ function updateSellTotal() {
       : parseFloat(sellingProduct.price) || 0;
   const qty = Math.max(1, parseInt(qtyInput?.value, 10) || 1);
   if (totalEl) totalEl.textContent = `$${(price * qty).toFixed(2)}`;
+}
+
+function hideSellAlert() {
+  const alertBox = document.getElementById('staffSellAlert');
+  if (alertBox) {
+    alertBox.classList.add('hidden');
+    alertBox.textContent = '';
+  }
+}
+
+function showSellWarning(message) {
+  const alertBox = document.getElementById('staffSellAlert');
+  if (!alertBox) return;
+  alertBox.textContent = message;
+  alertBox.className = 'rounded-3xl border border-rose-200 bg-rose-50 px-5 py-4 text-sm text-rose-700 mb-6';
+  alertBox.classList.remove('hidden');
+}
+
+function showSellNotification(message) {
+  const alertBox = document.getElementById('staffSellAlert');
+  if (!alertBox) return;
+  alertBox.textContent = message;
+  alertBox.className = 'rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm text-slate-700 mb-6';
+  alertBox.classList.remove('hidden');
 }
 
 function openSellModal(productId) {
@@ -174,8 +200,13 @@ async function submitSellForm(event) {
     closeModal('sellModal');
     const total = result.totalAmount ?? 0;
     const name = sellingProduct.name;
+    const remaining = result.product?.quantity ?? 0;
     sellingProduct = null;
-    alert(`Sale complete!\n${quantity} × ${name}\nTotal: $${Number(total).toFixed(2)}\n\nStock updated in inventory.`);
+    if (remaining === 0) {
+      showSellWarning(`Product \"${name}\" is sold out. Please restock this item.`);
+    } else {
+      showSellNotification(`Sale complete! ${quantity} × ${name} sold. Total: $${Number(total).toFixed(2)}.`);
+    }
     await loadStaffSellView();
   } catch (error) {
     if (errorBox) {
